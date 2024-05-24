@@ -1,6 +1,7 @@
 import Add.*;
 import Delete.*;
 import Edit.*;
+import Queries.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -67,6 +68,20 @@ public class WindowMain extends JFrame {
     JButton editLabType;
     JButton editDoctorPatientButton;
     JButton editScienceGrade;
+    JButton queryDoctorsProfile;
+    JButton queryServiceStaffSpecialty;
+    JButton queryDoctorsOperations;
+    JButton queryDoctorsExperience;
+    JButton queryDoctorsDegree;
+    JButton queryPatientsDetails;
+    JButton queryPatientsTreatment;
+    JButton queryPatientsClinic;
+    JButton queryBedsAvailability;
+    JButton queryClinicVisits;
+    JButton queryDoctorWorkload;
+    JButton queryCurrentPatients;
+    JButton queryPatientsSurgery;
+    JButton queryLabWorkload;
 
     private void initMainPanel() {
 
@@ -132,7 +147,76 @@ public class WindowMain extends JFrame {
         gbc.gridx = 0;
         gbc.gridy = 0;
 
-        //gbc.gridy++;
+        queryDoctorsProfile = new JButton("Врачи по профилю");
+        queryDoctorsProfile.addActionListener(e -> new executeQueryDoctorsProfile());
+        queryPanel.add(queryDoctorsProfile, gbc);
+
+        gbc.gridy++;
+        queryServiceStaffSpecialty = new JButton("Персонал по специальности");
+        queryServiceStaffSpecialty.addActionListener(e -> new executeQueryServiceStaffSpecialty());
+        queryPanel.add(queryServiceStaffSpecialty, gbc);
+
+        gbc.gridy++;
+        queryDoctorsOperations = new JButton("Врачи по операциям");
+        queryDoctorsOperations.addActionListener(e -> new executeQueryDoctorsOperations());
+        queryPanel.add(queryDoctorsOperations, gbc);
+
+        gbc.gridy++;
+        queryDoctorsExperience = new JButton("Врачи по стажу");
+        queryDoctorsExperience.addActionListener(e -> new executeQueryDoctorsExperience());
+        queryPanel.add(queryDoctorsExperience, gbc);
+
+        gbc.gridy++;
+        queryDoctorsDegree = new JButton("Врачи по степени");
+        queryDoctorsDegree.addActionListener(e -> new executeQueryDoctorsDegree());
+        queryPanel.add(queryDoctorsDegree, gbc);
+
+        gbc.gridy++;
+        queryPatientsDetails = new JButton("Пациенты больницы");
+        queryPatientsDetails.addActionListener(e -> new executeQueryPatientsDetails());
+        queryPanel.add(queryPatientsDetails, gbc);
+
+        gbc.gridy++;
+        queryPatientsTreatment = new JButton("Пациенты по лечению");
+        queryPatientsTreatment.addActionListener(e -> new executeQueryPatientsTreatment());
+        queryPanel.add(queryPatientsTreatment, gbc);
+
+        gbc.gridy++;
+        queryPatientsClinic = new JButton("Пациенты клиники");
+        queryPatientsClinic.addActionListener(e -> new executeQueryPatientsClinic());
+        queryPanel.add(queryPatientsClinic, gbc);
+
+        gbc.gridy++;
+        queryBedsAvailability = new JButton("Доступность коек");
+        queryBedsAvailability.addActionListener(e -> new executeQueryBedsAvailability());
+        queryPanel.add(queryBedsAvailability, gbc);
+
+        gbc.gridy++;
+        queryClinicVisits = new JButton("Посещения клиники");
+        queryClinicVisits.addActionListener(e -> new executeQueryClinicVisits());
+        queryPanel.add(queryClinicVisits, gbc);
+
+        gbc.gridy++;
+        queryDoctorWorkload = new JButton("Выработка врача");
+        queryDoctorWorkload.addActionListener(e -> new executeQueryDoctorWorkload());
+        queryPanel.add(queryDoctorWorkload, gbc);
+
+        gbc.gridy++;
+        queryCurrentPatients = new JButton("Загрузка врача");
+        queryCurrentPatients.addActionListener(e -> new executeQueryCurrentPatients());
+        queryPanel.add(queryCurrentPatients, gbc);
+
+        gbc.gridy++;
+        queryPatientsSurgery = new JButton("Пациенты по операциям");
+        queryPatientsSurgery.addActionListener(e -> new executeQueryPatientsSurgery());
+        queryPanel.add(queryPatientsSurgery, gbc);
+
+        gbc.gridy++;
+        queryLabWorkload = new JButton("Выработка лаборатории");
+        queryLabWorkload.addActionListener(e -> new executeQueryLabWorkload());
+        queryPanel.add(queryLabWorkload, gbc);
+
+        gbc.gridy++;
         JPanel goBackPanel = initGoBackPanel();
         queryPanel.add(goBackPanel, gbc);
     }
