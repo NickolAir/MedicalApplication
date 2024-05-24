@@ -4,10 +4,7 @@ import java.awt.*;
 public class NewPersonWindow extends JFrame {
     JTextField firstName;
     JTextField lastName;
-
     JTextField surname;
-
-    //JComboBox genre;
 
     public NewPersonWindow(String windowName) {
         super(windowName);
@@ -62,15 +59,6 @@ public class NewPersonWindow extends JFrame {
             gbc.gridwidth = 2;
             surname = new JTextField();
             mainPanel.add(surname, gbc);
-
-            /*gbc.gridx = 0;
-            gbc.gridy = 3;
-            gbc.gridwidth = 3;
-
-            String[] generes = {"rock", "pop", "r&b"};
-            genre = new JComboBox(generes);
-            add(genre, gbc);*/
-
 
             gbc.gridx = 1;
             gbc.gridy = 4;
