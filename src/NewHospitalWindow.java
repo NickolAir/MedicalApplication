@@ -37,7 +37,7 @@ public class NewHospitalWindow extends JFrame {
             // Метка и выпадающий список для выбора клиники
             gbc.gridx = 0;
             gbc.gridy = 1;
-            JLabel clinicLabel = new JLabel("Клиника");
+            JLabel clinicLabel = new JLabel("Привязать клинику");
             clinicLabel.setHorizontalAlignment(SwingConstants.RIGHT);
             mainPanel.add(clinicLabel, gbc);
 
