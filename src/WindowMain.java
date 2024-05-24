@@ -1,4 +1,6 @@
 import Add.*;
+import Delete.*;
+import Edit.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,8 +9,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class WindowMain extends JFrame {
-    private ImageIcon img;
-    private JLabel background;
     JButton connectButton;
     JPanel connectPanel;
     JPanel mainPanel;
@@ -33,9 +33,51 @@ public class WindowMain extends JFrame {
     JButton newLabType;
     JButton newDoctorPatientButton;
     JButton newScienceGrade;
+    JButton deleteHospitalButton;
+    JButton deleteClinicButton;
+    JButton deletePatientButton;
+    JButton deleteMedicalStaffButton;
+    JButton deleteServiceButton;
+    JButton deleteBuilding;
+    JButton deleteDepartment;
+    JButton deleteRoom;
+    JButton deleteBed;
+    JButton deleteOrder;
+    JButton deleteIllness;
+    JButton deleteOperation;
+    JButton deleteLab;
+    JButton deleteContract;
+    JButton deleteLabType;
+    JButton deleteDoctorPatientButton;
+    JButton deleteScienceGrade;
+    JButton editHospitalButton;
+    JButton editClinicButton;
+    JButton editPatientButton;
+    JButton editMedicalStaffButton;
+    JButton editServiceButton;
+    JButton editBuilding;
+    JButton editDepartment;
+    JButton editRoom;
+    JButton editBed;
+    JButton editOrder;
+    JButton editIllness;
+    JButton editOperation;
+    JButton editLab;
+    JButton editContract;
+    JButton editLabType;
+    JButton editDoctorPatientButton;
+    JButton editScienceGrade;
 
     private void initMainPanel() {
-        mainPanel = new JPanel();
+
+        mainPanel = new JPanel() {
+            ImageIcon img = new ImageIcon("/Users/nikolayratushnyak/IdeaProjects/MedicalApplication/res/medical_organization.png");
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(img.getImage(), 0, 0, getWidth(), getHeight(), this);
+            }
+        };
         mainPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -76,7 +118,14 @@ public class WindowMain extends JFrame {
         return goBackPanel;
     }
     private void initQueryPanel() {
-        queryPanel = new JPanel();
+        ImageIcon img = new ImageIcon("/Users/nikolayratushnyak/IdeaProjects/MedicalApplication/res/query.png");
+        queryPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(img.getImage(), 0, 0, getWidth(), getHeight(), this);
+            }
+        };
         queryPanel.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -89,32 +138,221 @@ public class WindowMain extends JFrame {
     }
 
     private void initDeletePanel() {
-        deletePanel = new JPanel();
+        ImageIcon img = new ImageIcon("/Users/nikolayratushnyak/IdeaProjects/MedicalApplication/res/delete.png");
+        deletePanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(img.getImage(), 0, 0, getWidth(), getHeight(), this);
+            }
+        };
         deletePanel.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
 
-        //gbc.gridy++;
+        deleteHospitalButton = new JButton("Удалить больницу");
+        deleteHospitalButton.addActionListener(e -> new DeleteHospitalWindow());
+        deletePanel.add(deleteHospitalButton, gbc);
+
+        gbc.gridy++;
+        deleteClinicButton = new JButton("Удалить клинику");
+        deleteClinicButton.addActionListener(e -> new DeleteClinicWindow());
+        deletePanel.add(deleteClinicButton, gbc);
+
+        gbc.gridy++;
+        deletePatientButton = new JButton("Удалить пациента");
+        deletePatientButton.addActionListener(e -> new DeletePatientWindow());
+        deletePanel.add(deletePatientButton, gbc);
+
+        gbc.gridy++;
+        deleteMedicalStaffButton = new JButton("Удалить медперсонал");
+        deleteMedicalStaffButton.addActionListener(e -> new DeleteMedicalStaffWindow());
+        deletePanel.add(deleteMedicalStaffButton, gbc);
+
+        gbc.gridy++;
+        deleteServiceButton = new JButton("Удалить обслуживающий персонал");
+        deleteServiceButton.addActionListener(e -> new DeleteServiceStaffWindow());
+        deletePanel.add(deleteServiceButton, gbc);
+
+        gbc.gridy++;
+        deleteBuilding = new JButton("Удалить здание");
+        deleteBuilding.addActionListener(e -> new DeleteBuildingWindow());
+        deletePanel.add(deleteBuilding, gbc);
+
+        gbc.gridy++;
+        deleteDepartment = new JButton("Удалить отделение");
+        deleteDepartment.addActionListener(e -> new DeleteDepartmentWindow());
+        deletePanel.add(deleteDepartment, gbc);
+
+        gbc.gridy++;
+        deleteRoom = new JButton("Удалить комнату");
+        deleteRoom.addActionListener(e -> new DeleteRoomWindow());
+        deletePanel.add(deleteRoom, gbc);
+
+        gbc.gridy++;
+        deleteBed = new JButton("Удалить кровать");
+        deleteBed.addActionListener(e -> new DeleteBedWindow());
+        deletePanel.add(deleteBed, gbc);
+
+        gbc.gridy++;
+        deleteOrder = new JButton("Удалить заказ");
+        deleteOrder.addActionListener(e -> new DeleteOrderWindow());
+        deletePanel.add(deleteOrder, gbc);
+
+        gbc.gridy++;
+        deleteIllness = new JButton("Удалить заболевание");
+        deleteIllness.addActionListener(e -> new DeleteIllnessWindow());
+        deletePanel.add(deleteIllness, gbc);
+
+        gbc.gridy++;
+        deleteOperation = new JButton("Удалить операцию");
+        deleteOperation.addActionListener(e -> new DeleteOperationWindow());
+        deletePanel.add(deleteOperation, gbc);
+
+        gbc.gridy++;
+        deleteLab = new JButton("Удалить лабораторию");
+        deleteLab.addActionListener(e -> new DeleteLabWindow());
+        deletePanel.add(deleteLab, gbc);
+
+        gbc.gridy++;
+        deleteContract = new JButton("Удалить контракт");
+        deleteContract.addActionListener(e -> new DeleteContractWindow());
+        deletePanel.add(deleteContract, gbc);
+
+        gbc.gridy++;
+        deleteLabType = new JButton("Удалить тип лаборатории");
+        deleteLabType.addActionListener(e -> new DeleteLabTypeWindow());
+        deletePanel.add(deleteLabType, gbc);
+
+        gbc.gridy++;
+        deleteDoctorPatientButton = new JButton("Удалить врача от пациента");
+        deleteDoctorPatientButton.addActionListener(e -> new DeleteDoctorPatientWindow());
+        deletePanel.add(deleteDoctorPatientButton, gbc);
+
+        gbc.gridy++;
+        deleteScienceGrade = new JButton("Удалить научную степень");
+        deleteScienceGrade.addActionListener(e -> new DeleteScienceGradeWindow());
+        deletePanel.add(deleteScienceGrade, gbc);
+
+        gbc.gridy++;
         JPanel goBackPanel = initGoBackPanel();
         deletePanel.add(goBackPanel, gbc);
     }
 
     private void initEditPanel() {
-        editPanel = new JPanel();
+        ImageIcon img = new ImageIcon("/Users/nikolayratushnyak/IdeaProjects/MedicalApplication/res/edit.png");
+        editPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(img.getImage(), 0, 0, getWidth(), getHeight(), this);
+            }
+        };
         editPanel.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
 
-        //gbc.gridy++;
+        editHospitalButton = new JButton("Редактировать больницу");
+        editHospitalButton.addActionListener(e -> new EditHospitalWindow());
+        editPanel.add(editHospitalButton, gbc);
+
+        gbc.gridy++;
+        editClinicButton = new JButton("Редактировать клинику");
+        editClinicButton.addActionListener(e -> new EditClinicWindow());
+        editPanel.add(editClinicButton, gbc);
+
+        gbc.gridy++;
+        editPatientButton = new JButton("Редактировать пациента");
+        editPatientButton.addActionListener(e -> new EditPatientWindow());
+        editPanel.add(editPatientButton, gbc);
+
+        gbc.gridy++;
+        editMedicalStaffButton = new JButton("Редактировать медперсонал");
+        editMedicalStaffButton.addActionListener(e -> new EditMedicalStaffWindow());
+        editPanel.add(editMedicalStaffButton, gbc);
+
+        gbc.gridy++;
+        editServiceButton = new JButton("Редактировать обслуживающий персонал");
+        editServiceButton.addActionListener(e -> new EditServiceStaffWindow());
+        editPanel.add(editServiceButton, gbc);
+
+        gbc.gridy++;
+        editBuilding = new JButton("Редактировать здание");
+        editBuilding.addActionListener(e -> new EditBuildingWindow());
+        editPanel.add(editBuilding, gbc);
+
+        gbc.gridy++;
+        editDepartment = new JButton("Редактировать отделение");
+        editDepartment.addActionListener(e -> new EditDepartmentWindow());
+        editPanel.add(editDepartment, gbc);
+
+        gbc.gridy++;
+        editRoom = new JButton("Редактировать комнату");
+        editRoom.addActionListener(e -> new EditRoomWindow());
+        editPanel.add(editRoom, gbc);
+
+        gbc.gridy++;
+        editBed = new JButton("Редактировать кровать");
+        editBed.addActionListener(e -> new EditBedWindow());
+        editPanel.add(editBed, gbc);
+
+        gbc.gridy++;
+        editOrder = new JButton("Редактировать заказ");
+        editOrder.addActionListener(e -> new EditOrderWindow());
+        editPanel.add(editOrder, gbc);
+
+        gbc.gridy++;
+        editIllness = new JButton("Редактировать заболевание");
+        editIllness.addActionListener(e -> new EditIllnessWindow());
+        editPanel.add(editIllness, gbc);
+
+        gbc.gridy++;
+        editOperation = new JButton("Редактировать операцию");
+        editOperation.addActionListener(e -> new EditOperationWindow());
+        editPanel.add(editOperation, gbc);
+
+        gbc.gridy++;
+        editLab = new JButton("Редактировать лабораторию");
+        editLab.addActionListener(e -> new EditLabWindow());
+        editPanel.add(editLab, gbc);
+
+        gbc.gridy++;
+        editContract = new JButton("Редактировать контракт");
+        editContract.addActionListener(e -> new EditContractWindow());
+        editPanel.add(editContract, gbc);
+
+        gbc.gridy++;
+        editLabType = new JButton("Редактировать тип лаборатории");
+        editLabType.addActionListener(e -> new EditLabTypeWindow());
+        editPanel.add(editLabType, gbc);
+
+        gbc.gridy++;
+        editDoctorPatientButton = new JButton("Редактировать врача пациента");
+        editDoctorPatientButton.addActionListener(e -> new EditDoctorPatientWindow());
+        editPanel.add(editDoctorPatientButton, gbc);
+
+        gbc.gridy++;
+        editScienceGrade = new JButton("Редактировать научную степень");
+        editScienceGrade.addActionListener(e -> new EditScienceGradeWindow());
+        editPanel.add(editScienceGrade, gbc);
+
+        gbc.gridy++;
         JPanel goBackPanel = initGoBackPanel();
         editPanel.add(goBackPanel, gbc);
     }
     private void initAddPanel() {
-        addPanel = new JPanel();
+        ImageIcon img = new ImageIcon("/Users/nikolayratushnyak/IdeaProjects/MedicalApplication/res/add.png");
+        addPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(img.getImage(), 0, 0, getWidth(), getHeight(), this);
+            }
+        };
         addPanel.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -123,7 +361,6 @@ public class WindowMain extends JFrame {
 
         newHospitalButton = new JButton("Добавить больницу");
         newHospitalButton.addActionListener(e -> new NewHospitalWindow());
-        addPanel.setBackground(Color.GRAY);
         addPanel.add(newHospitalButton, gbc);
 
         gbc.gridy++;
@@ -227,8 +464,8 @@ public class WindowMain extends JFrame {
     }
 
     private void initConnectPanel() {
-        img = new ImageIcon("/Users/nikolayratushnyak/IdeaProjects/MedicalApplication/res/medical_organization.png");
-        background = new JLabel("", img, JLabel.CENTER);
+        ImageIcon img = new ImageIcon("/Users/nikolayratushnyak/IdeaProjects/MedicalApplication/res/medical_organization.png");
+        JLabel background = new JLabel("", img, JLabel.CENTER);
 
         connectPanel = new JPanel() {
             @Override
