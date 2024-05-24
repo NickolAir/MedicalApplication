@@ -1,3 +1,5 @@
+import Add.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.sql.Connection;
@@ -10,6 +12,10 @@ public class WindowMain extends JFrame {
     JButton connectButton;
     JPanel connectPanel;
     JPanel mainPanel;
+    JPanel addPanel;
+    JPanel deletePanel;
+    JPanel editPanel;
+    JPanel queryPanel;
     JButton newHospitalButton;
     JButton newClinicButton;
     JButton newPatientButton;
@@ -32,95 +38,179 @@ public class WindowMain extends JFrame {
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+
+        JButton openAddPanelButton = new JButton("Открыть меню вввода");
+        openAddPanelButton.addActionListener(e -> openAddPanel());
+        mainPanel.add(openAddPanelButton, gbc);
+
+        gbc.gridy = 1;
+
+        JButton openQueryPanelButton = new JButton("Открыть меню запросов");
+        openQueryPanelButton.addActionListener(e -> openQueryPanel());
+        mainPanel.add(openQueryPanelButton, gbc);
+
+        gbc.gridy = 2;
+
+        JButton openEditPanelButton = new JButton("Открыть меню редактирования");
+        openEditPanelButton.addActionListener(e -> openEditPanel());
+        mainPanel.add(openEditPanelButton, gbc);
+
+        gbc.gridy = 3;
+
+        JButton openDeletePanelButton = new JButton("Открыть меню удаления");
+        openDeletePanelButton.addActionListener(e -> openDeletePanel());
+        mainPanel.add(openDeletePanelButton, gbc);
+    }
+    private JPanel initGoBackPanel() {
+        JPanel goBackPanel = new JPanel();
+        goBackPanel.setBackground(Color.GRAY);
+        goBackPanel.setLayout(new BoxLayout(goBackPanel, BoxLayout.X_AXIS));
+        JButton goBackButton = new JButton("назад");
+        goBackButton.addActionListener(e -> openMainPanel());
+        goBackPanel.add(goBackButton);
+
+        goBackPanel.add(Box.createHorizontalGlue());
+        return goBackPanel;
+    }
+    private void initQueryPanel() {
+        queryPanel = new JPanel();
+        queryPanel.setLayout(new GridBagLayout());
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+
+        //gbc.gridy++;
+        JPanel goBackPanel = initGoBackPanel();
+        queryPanel.add(goBackPanel, gbc);
+    }
+
+    private void initDeletePanel() {
+        deletePanel = new JPanel();
+        deletePanel.setLayout(new GridBagLayout());
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+
+        //gbc.gridy++;
+        JPanel goBackPanel = initGoBackPanel();
+        deletePanel.add(goBackPanel, gbc);
+    }
+
+    private void initEditPanel() {
+        editPanel = new JPanel();
+        editPanel.setLayout(new GridBagLayout());
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+
+        //gbc.gridy++;
+        JPanel goBackPanel = initGoBackPanel();
+        editPanel.add(goBackPanel, gbc);
+    }
+    private void initAddPanel() {
+        addPanel = new JPanel();
+        addPanel.setLayout(new GridBagLayout());
+
+        GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
 
         newHospitalButton = new JButton("Добавить больницу");
         newHospitalButton.addActionListener(e -> new NewHospitalWindow());
-        mainPanel.setBackground(Color.GRAY);
-        mainPanel.add(newHospitalButton, gbc);
+        addPanel.setBackground(Color.GRAY);
+        addPanel.add(newHospitalButton, gbc);
 
         gbc.gridy++;
         newClinicButton = new JButton("Добавить клинику");
         newClinicButton.addActionListener(e -> new NewClinicWindow());
-        mainPanel.add(newClinicButton, gbc);
+        addPanel.add(newClinicButton, gbc);
 
         gbc.gridy++;
         newPatientButton = new JButton("Добавить пациента");
         newPatientButton.addActionListener(e -> new NewPatientWindow());
-        mainPanel.add(newPatientButton, gbc);
+        addPanel.add(newPatientButton, gbc);
 
         gbc.gridy++;
         newMedicalStaffButton = new JButton("Добавить медперсонал");
         newMedicalStaffButton.addActionListener(e -> new NewMedicalStaffWindow());
-        mainPanel.add(newMedicalStaffButton, gbc);
+        addPanel.add(newMedicalStaffButton, gbc);
 
         gbc.gridy++;
         newServiceButton = new JButton("Добавить обслуживающий персонал");
         newServiceButton.addActionListener(e -> new NewServiceStaffWindow());
-        mainPanel.add(newServiceButton, gbc);
+        addPanel.add(newServiceButton, gbc);
 
         gbc.gridy++;
         newBuilding = new JButton("Добавить здание");
         newBuilding.addActionListener(e -> new NewBuildingWindow());
-        mainPanel.add(newBuilding, gbc);
+        addPanel.add(newBuilding, gbc);
 
         gbc.gridy++;
         newDepartment = new JButton("Добавить отделение");
         newDepartment.addActionListener(e -> new NewDepartmentWindow());
-        mainPanel.add(newDepartment, gbc);
+        addPanel.add(newDepartment, gbc);
 
         gbc.gridy++;
         newRoom = new JButton("Добавить комнату");
         newRoom.addActionListener(e -> new NewRoomWindow());
-        mainPanel.add(newRoom, gbc);
+        addPanel.add(newRoom, gbc);
 
         gbc.gridy++;
         newBed = new JButton("Добавить кровать");
         newBed.addActionListener(e -> new NewBedWindow());
-        mainPanel.add(newBed, gbc);
+        addPanel.add(newBed, gbc);
 
         gbc.gridy++;
         newOrder = new JButton("Добавить направление");
         newOrder.addActionListener(e -> new NewOrderWindow());
-        mainPanel.add(newOrder, gbc);
+        addPanel.add(newOrder, gbc);
 
         gbc.gridy++;
         newIllness = new JButton("Добавить заболевание");
         newIllness.addActionListener(e -> new NewIllnessWindow());
-        mainPanel.add(newIllness, gbc);
+        addPanel.add(newIllness, gbc);
 
         gbc.gridy++;
         newOperation = new JButton("Добавить операцию");
         newOperation.addActionListener(e -> new NewOperationWindow());
-        mainPanel.add(newOperation, gbc);
+        addPanel.add(newOperation, gbc);
 
         gbc.gridy++;
         newLab = new JButton("Добавить лабораторию");
         newLab.addActionListener(e -> new NewLabWindow());
-        mainPanel.add(newLab, gbc);
+        addPanel.add(newLab, gbc);
 
         gbc.gridy++;
         newContract = new JButton("Добавить контракт");
         newContract.addActionListener(e -> new NewContractWindow());
-        mainPanel.add(newContract, gbc);
+        addPanel.add(newContract, gbc);
 
         gbc.gridy++;
         newLabType = new JButton("Добавить тип лаборатории");
         newLabType.addActionListener(e -> new NewLabTypeWindow());
-        mainPanel.add(newLabType, gbc);
+        addPanel.add(newLabType, gbc);
 
         gbc.gridy++;
         newDoctorPatientButton = new JButton("Добавить врача к пациенту");
         newDoctorPatientButton.addActionListener(e -> new NewDoctorPatientWindow());
-        mainPanel.add(newDoctorPatientButton, gbc);
+        addPanel.add(newDoctorPatientButton, gbc);
 
         gbc.gridy++;
         newScienceGrade = new JButton("Добавить научную степень");
         newScienceGrade.addActionListener(e -> new NewScienceGradeWindow());
-        mainPanel.add(newScienceGrade, gbc);
+        addPanel.add(newScienceGrade, gbc);
 
-        this.getContentPane().add(mainPanel);
+        gbc.gridy++;
+        JPanel goBackPanel = initGoBackPanel();
+        addPanel.add(goBackPanel, gbc);
+
+        this.getContentPane().add(addPanel);
     }
 
     private void connectBD() {
@@ -128,10 +218,7 @@ public class WindowMain extends JFrame {
             connectButton.setBackground(Color.red);
             connectButton.setEnabled(false);
             System.out.println("Successful connected");
-            this.getContentPane().remove(connectPanel);
-            initMainPanel();
-            revalidate(); // Обновляем содержимое JFrame
-            repaint();   // Перерисовываем JFrame
+            openMainPanel();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Ошибка подключения к базе данных\n" + e.getMessage());
             connectButton.setText("Подключиться к базе данных");
@@ -166,12 +253,51 @@ public class WindowMain extends JFrame {
 
         this.getContentPane().add(connectPanel);
     }
+    private void openQueryPanel() {
+        this.getContentPane().removeAll();
+        this.getContentPane().add(queryPanel);
+        revalidate();
+        repaint();
+    }
+
+    private void openAddPanel() {
+        this.getContentPane().removeAll();
+        this.getContentPane().add(addPanel);
+        revalidate();
+        repaint();
+    }
+
+    void openMainPanel() {
+        this.getContentPane().removeAll();
+        this.getContentPane().add(mainPanel);
+        revalidate();
+        repaint();
+    }
+
+    void openEditPanel() {
+        this.getContentPane().removeAll();
+        this.getContentPane().add(editPanel);
+        revalidate();
+        repaint();
+    }
+
+    void openDeletePanel() {
+        this.getContentPane().removeAll();
+        this.getContentPane().add(deletePanel);
+        revalidate();
+        repaint();
+    }
 
     public WindowMain() {
         super("Medical");
         try {
-            setSize(new Dimension(640, 480));
+            setSize(new Dimension(1280, 832));
             initConnectPanel();
+            initMainPanel();
+            initAddPanel();
+            initQueryPanel();
+            initEditPanel();
+            initDeletePanel();
             add(connectPanel);
             setDefaultCloseOperation(EXIT_ON_CLOSE);
             setVisible(true);
