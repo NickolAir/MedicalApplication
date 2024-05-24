@@ -1,8 +1,3 @@
-import Add.*;
-import Delete.*;
-import Edit.*;
-import Queries.*;
-
 import javax.swing.*;
 import java.awt.*;
 import java.sql.Connection;
