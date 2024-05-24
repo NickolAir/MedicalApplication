@@ -37,7 +37,7 @@ public class GetUtils {
         HashMap<String, Integer> buildings = new HashMap<>();
         try (Connection connection = DriverManager.getConnection(ConnectionCnfg.url, ConnectionCnfg.username, ConnectionCnfg.password)) {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT building_id, number FROM \"Building\""));
+            ResultSet resultSet = statement.executeQuery("SELECT building_id, number FROM \"Building\"");
 
             while (resultSet.next()) {
                 Integer id = resultSet.getInt("building_id");
