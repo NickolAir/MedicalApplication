@@ -1,11 +1,12 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.sql.*;
 
 public class executeQueryDoctorsExperience extends JFrame {
     private JComboBox<String> clinicHospitalComboBox;
-    private JComboBox<String> experienceComboBox;
+    private JComboBox<Integer> experienceComboBox;
     private JTable doctorsTable;
     private JLabel totalDoctorsLabel;
 
@@ -20,6 +21,9 @@ public class executeQueryDoctorsExperience extends JFrame {
 
     private void initComponents() {
         JPanel panel = new JPanel(new BorderLayout());
+
+        // Top panel for combo boxes
+        JPanel topPanel = new JPanel(new GridLayout(2, 1));
 
         // Clinic/Hospital ComboBox
         clinicHospitalComboBox = new JComboBox<>();
@@ -50,15 +54,17 @@ public class executeQueryDoctorsExperience extends JFrame {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        panel.add(clinicHospitalComboBox, BorderLayout.NORTH);
+        topPanel.add(clinicHospitalComboBox);
 
         // Experience ComboBox
-        experienceComboBox = new JComboBox<String>();
-        experienceComboBox.addItem("Select Experience");
+        experienceComboBox = new JComboBox<>();
+        experienceComboBox.addItem(0); // Add option for no experience requirement
         for (int i = 1; i <= 20; i++) {
-            experienceComboBox.addItem(String.valueOf(i));
+            experienceComboBox.addItem(i);
         }
-        panel.add(experienceComboBox, BorderLayout.CENTER);
+        topPanel.add(experienceComboBox);
+
+        panel.add(topPanel, BorderLayout.NORTH);
 
         // Doctors Table
         doctorsTable = new JTable();
@@ -70,23 +76,17 @@ public class executeQueryDoctorsExperience extends JFrame {
         panel.add(totalDoctorsLabel, BorderLayout.SOUTH);
 
         // ComboBox ActionListener
-        clinicHospitalComboBox.addActionListener(e -> {
-            int experience = (int) experienceComboBox.getSelectedItem();
-            String selectedItem = (String) clinicHospitalComboBox.getSelectedItem();
-            if (selectedItem != null && (selectedItem.startsWith("Clinic") || selectedItem.startsWith("Hospital"))) {
-                int id = Integer.parseInt(selectedItem.split("\\(ID: ")[1].replace(")", ""));
-                showDoctors(id, experience);
+        ActionListener comboBoxListener = e -> {
+            String selectedClinicHospital = (String) clinicHospitalComboBox.getSelectedItem();
+            int selectedExperience = (int) experienceComboBox.getSelectedItem();
+            if (selectedClinicHospital != null && !selectedClinicHospital.equals("Select Clinic/Hospital")) {
+                int id = Integer.parseInt(selectedClinicHospital.split("\\(ID: ")[1].replace(")", ""));
+                showDoctors(id, selectedExperience);
             }
-        });
+        };
 
-        experienceComboBox.addActionListener(e -> {
-            int experience = (int) experienceComboBox.getSelectedItem();
-            String selectedItem = (String) clinicHospitalComboBox.getSelectedItem();
-            if (selectedItem != null && (selectedItem.startsWith("Clinic") || selectedItem.startsWith("Hospital"))) {
-                int id = Integer.parseInt(selectedItem.split("\\(ID: ")[1].replace(")", ""));
-                showDoctors(id, experience);
-            }
-        });
+        clinicHospitalComboBox.addActionListener(comboBoxListener);
+        experienceComboBox.addActionListener(comboBoxListener);
 
         add(panel);
     }
@@ -97,15 +97,12 @@ public class executeQueryDoctorsExperience extends JFrame {
         model.addColumn("First Name");
         model.addColumn("Last Name");
         model.addColumn("Specialization");
+        model.addColumn("Experience");
 
         try (Connection connection = DriverManager.getConnection(ConnectionCnfg.url, ConnectionCnfg.username, ConnectionCnfg.password)) {
-            String query = "SELECT * FROM medical_staff WHERE ";
-            if (id < 1000) { // Check if it's a Clinic or Hospital
-                query += "clinic_id = ?";
-            } else {
-                query += "hospital_id = ?";
-            }
-            query += " AND experience >= ?";
+            String query = "SELECT staff_id, first_name, last_name, specialization, experience " +
+                    "FROM medical_staff " +
+                    "WHERE clinic_id = ? AND experience >= ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, id);
             statement.setInt(2, experience);
@@ -117,7 +114,8 @@ public class executeQueryDoctorsExperience extends JFrame {
                 String firstName = resultSet.getString("first_name");
                 String lastName = resultSet.getString("last_name");
                 String specialization = resultSet.getString("specialization");
-                model.addRow(new Object[]{staffId, firstName, lastName, specialization});
+                int doctorExperience = resultSet.getInt("experience");
+                model.addRow(new Object[]{staffId, firstName, lastName, specialization, doctorExperience});
                 totalDoctors++;
             }
             resultSet.close();
