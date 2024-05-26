@@ -143,7 +143,7 @@ public class executeQueryPatientsDetails extends JFrame {
         model.addColumn("Admission Date");
 
         try (Connection connection = DriverManager.getConnection(ConnectionCnfg.url, ConnectionCnfg.username, ConnectionCnfg.password)) {
-            String query = "SELECT * FROM patient WHERE hospital_id IN (SELECT hospital_id FROM \"Buiding\" WHERE building_id IN (SELECT building_id FROM \"Hospital_room\" WHERE room_id = ?))";
+            String query = "SELECT p.* FROM patient p INNER JOIN bed b ON p.patient_id = b.patient_id WHERE b.room_id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, roomId);
             ResultSet resultSet = statement.executeQuery();
