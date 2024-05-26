@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.sql.*;
 
 public class executeQueryServiceStaffSpecialty extends JFrame {
@@ -20,6 +21,9 @@ public class executeQueryServiceStaffSpecialty extends JFrame {
 
     private void initComponents() {
         JPanel panel = new JPanel(new BorderLayout());
+
+        // Top panel for combo boxes
+        JPanel topPanel = new JPanel(new GridLayout(2, 1));
 
         // Clinic/Hospital ComboBox
         clinicHospitalComboBox = new JComboBox<>();
@@ -50,7 +54,7 @@ public class executeQueryServiceStaffSpecialty extends JFrame {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        panel.add(clinicHospitalComboBox, BorderLayout.NORTH);
+        topPanel.add(clinicHospitalComboBox);
 
         // Specialty ComboBox
         specialtyComboBox = new JComboBox<>();
@@ -69,7 +73,9 @@ public class executeQueryServiceStaffSpecialty extends JFrame {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        panel.add(specialtyComboBox, BorderLayout.CENTER);
+        topPanel.add(specialtyComboBox);
+
+        panel.add(topPanel, BorderLayout.NORTH);
 
         // Service Staff Table
         serviceStaffTable = new JTable();
@@ -81,23 +87,19 @@ public class executeQueryServiceStaffSpecialty extends JFrame {
         panel.add(totalServiceStaffLabel, BorderLayout.SOUTH);
 
         // ComboBox ActionListener
-        clinicHospitalComboBox.addActionListener(e -> {
-            String selectedItem = (String) clinicHospitalComboBox.getSelectedItem();
-            if (selectedItem != null && (selectedItem.startsWith("Clinic") || selectedItem.startsWith("Hospital"))) {
-                int id = Integer.parseInt(selectedItem.split("\\(ID: ")[1].replace(")", ""));
-                String selectedSpecialty = (String) specialtyComboBox.getSelectedItem();
+        ActionListener comboBoxListener = e -> {
+            String selectedClinicHospital = (String) clinicHospitalComboBox.getSelectedItem();
+            String selectedSpecialty = (String) specialtyComboBox.getSelectedItem();
+            if (selectedClinicHospital != null && selectedSpecialty != null
+                    && !selectedClinicHospital.equals("Select Clinic/Hospital")
+                    && !selectedSpecialty.equals("Select Specialty")) {
+                int id = Integer.parseInt(selectedClinicHospital.split("\\(ID: ")[1].replace(")", ""));
                 showServiceStaff(id, selectedSpecialty);
             }
-        });
+        };
 
-        specialtyComboBox.addActionListener(e -> {
-            String selectedItem = (String) clinicHospitalComboBox.getSelectedItem();
-            if (selectedItem != null && (selectedItem.startsWith("Clinic") || selectedItem.startsWith("Hospital"))) {
-                int id = Integer.parseInt(selectedItem.split("\\(ID: ")[1].replace(")", ""));
-                String selectedSpecialty = (String) specialtyComboBox.getSelectedItem();
-                showServiceStaff(id, selectedSpecialty);
-            }
-        });
+        clinicHospitalComboBox.addActionListener(comboBoxListener);
+        specialtyComboBox.addActionListener(comboBoxListener);
 
         add(panel);
     }
@@ -112,18 +114,13 @@ public class executeQueryServiceStaffSpecialty extends JFrame {
         try (Connection connection = DriverManager.getConnection(ConnectionCnfg.url, ConnectionCnfg.username, ConnectionCnfg.password)) {
             String query;
             if (id < 1000) { // Check if it's a Clinic or Hospital
-                query = "SELECT staff_id, first_name, last_name, specialization FROM Service_staff WHERE clinic_id = ?";
+                query = "SELECT staff_id, first_name, last_name, specialization FROM Service_staff WHERE clinic_id = ? AND specialization = ?";
             } else {
-                query = "SELECT staff_id, first_name, last_name, specialization FROM Service_staff WHERE hospital_id = ?";
-            }
-            if (!specialty.equals("Select Specialty")) {
-                query += " AND specialization = ?";
+                query = "SELECT staff_id, first_name, last_name, specialization FROM Service_staff WHERE hospital_id = ? AND specialization = ?";
             }
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, id);
-            if (!specialty.equals("Select Specialty")) {
-                statement.setString(2, specialty);
-            }
+            statement.setString(2, specialty);
             ResultSet resultSet = statement.executeQuery();
 
             int totalServiceStaff = 0;
