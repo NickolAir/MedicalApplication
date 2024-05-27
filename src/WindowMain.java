@@ -266,19 +266,9 @@ public class WindowMain extends JFrame {
         deletePanel.add(deleteBed, gbc);
 
         gbc.gridy++;
-        deleteOrder = new JButton("Удалить заказ");
-        deleteOrder.addActionListener(e -> new DeleteOrderWindow());
-        deletePanel.add(deleteOrder, gbc);
-
-        gbc.gridy++;
         deleteIllness = new JButton("Удалить заболевание");
         deleteIllness.addActionListener(e -> new DeleteIllnessWindow());
         deletePanel.add(deleteIllness, gbc);
-
-        gbc.gridy++;
-        deleteOperation = new JButton("Удалить операцию");
-        deleteOperation.addActionListener(e -> new DeleteOperationWindow());
-        deletePanel.add(deleteOperation, gbc);
 
         gbc.gridy++;
         deleteLab = new JButton("Удалить лабораторию");
