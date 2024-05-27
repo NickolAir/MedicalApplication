@@ -187,11 +187,6 @@ public class WindowMain extends JFrame {
         queryPanel.add(queryBedsAvailability, gbc);
 
         gbc.gridy++;
-        queryDoctorWorkload = new JButton("Выработка врача");
-        queryDoctorWorkload.addActionListener(e -> new executeQueryDoctorWorkload());
-        queryPanel.add(queryDoctorWorkload, gbc);
-
-        gbc.gridy++;
         queryCurrentPatients = new JButton("Загрузка врача");
         queryCurrentPatients.addActionListener(e -> new executeQueryCurrentPatients());
         queryPanel.add(queryCurrentPatients, gbc);
