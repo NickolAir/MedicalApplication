@@ -91,31 +91,26 @@ public class NewOperationWindow extends JFrame {
         int doctorId = Integer.parseInt(selectedDoctor.split("\\(ID: ")[1].replace(")", ""));
 
         String insertOperationQuery = "INSERT INTO operations (patient_id, doctor_id, operation_type, date) VALUES (?, ?, ?, ?)";
-        String updateOperationsCountQuery = "UPDATE operating_doctors SET operations_count = operations_count + 1 WHERE doctor_id = ?";
 
-        try (Connection connection = DriverManager.getConnection(ConnectionCnfg.url, ConnectionCnfg.username, ConnectionCnfg.password)) {
-            connection.setAutoCommit(false);
+        try (Connection connection = DriverManager.getConnection(ConnectionCnfg.url, ConnectionCnfg.username, ConnectionCnfg.password);
+             PreparedStatement insertOperationStatement = connection.prepareStatement(insertOperationQuery)) {
 
-            try (PreparedStatement insertOperationStatement = connection.prepareStatement(insertOperationQuery);
-                 PreparedStatement updateOperationsCountStatement = connection.prepareStatement(updateOperationsCountQuery)) {
+            insertOperationStatement.setInt(1, patientId);
+            insertOperationStatement.setInt(2, doctorId);
+            insertOperationStatement.setString(3, operationType);
+            insertOperationStatement.setDate(4, Date.valueOf(date));
+            insertOperationStatement.executeUpdate();
 
-                insertOperationStatement.setInt(1, patientId);
-                insertOperationStatement.setInt(2, doctorId);
-                insertOperationStatement.setString(3, operationType);
-                insertOperationStatement.setDate(4, Date.valueOf(date));
-                insertOperationStatement.executeUpdate();
+            JOptionPane.showMessageDialog(this, "Operation saved successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+            dispose();
 
-                updateOperationsCountStatement.setInt(1,doctorId);
-                updateOperationsCountStatement.executeUpdate();
-                        connection.commit();
-                JOptionPane.showMessageDialog(this, "Operation saved successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
-            } catch (SQLException ex) {
-                connection.rollback();
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(this, "An error occurred while saving the operation.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
         } catch (SQLException ex) {
             ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "An error occurred while saving the operation.", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(NewOperationWindow::new);
     }
 }
