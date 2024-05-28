@@ -360,39 +360,14 @@ public class WindowMain extends JFrame {
         editPanel.add(editBed, gbc);
 
         gbc.gridy++;
-        editOrder = new JButton("Редактировать заказ");
-        editOrder.addActionListener(e -> new EditOrderWindow());
-        editPanel.add(editOrder, gbc);
-
-        gbc.gridy++;
         editIllness = new JButton("Редактировать заболевание");
         editIllness.addActionListener(e -> new EditIllnessWindow());
         editPanel.add(editIllness, gbc);
 
         gbc.gridy++;
-        editOperation = new JButton("Редактировать операцию");
-        editOperation.addActionListener(e -> new EditOperationWindow());
-        editPanel.add(editOperation, gbc);
-
-        gbc.gridy++;
-        editLab = new JButton("Редактировать лабораторию");
-        editLab.addActionListener(e -> new EditLabWindow());
-        editPanel.add(editLab, gbc);
-
-        gbc.gridy++;
-        editContract = new JButton("Редактировать контракт");
-        editContract.addActionListener(e -> new EditContractWindow());
-        editPanel.add(editContract, gbc);
-
-        gbc.gridy++;
         editLabType = new JButton("Редактировать тип лаборатории");
         editLabType.addActionListener(e -> new EditLabTypeWindow());
         editPanel.add(editLabType, gbc);
-
-        gbc.gridy++;
-        editDoctorPatientButton = new JButton("Редактировать врача пациента");
-        editDoctorPatientButton.addActionListener(e -> new EditDoctorPatientWindow());
-        editPanel.add(editDoctorPatientButton, gbc);
 
         gbc.gridy++;
         editScienceGrade = new JButton("Редактировать научную степень");
